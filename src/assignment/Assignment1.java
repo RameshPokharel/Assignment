@@ -5,27 +5,33 @@ import java.util.Scanner;
 public class Assignment1 {
     
     /**
-     * retry is used to count the error generation for input validation 
-     * if any user data is invalid in proper format, retry will be increased
+     * lowestMap is used lowest MAP value from all individuals
+     * highestMap is used highest MAP value from all individuals
      * 
      */
-       static int retry=0;
+        static double lowestMap=0;
+        static double highestMap=0;
 
 
 	public static void main(String[] args) {
 
-	    //Take scanner input from console
-            String printFormat="";
+            lowestMap=0;
+            highestMap=0;
+            
+            //made object of Assignment1 class
+            Assignment1  assignment= new Assignment1();
+            
+            //initialize scanner for input from console
             Scanner sc= new Scanner(System.in);
             
             System.out.println("Enter Total User : ");
             int totalNum= sc.nextInt();
                
+            // sample number of individuals must be within specified interval
             if(totalNum > 10 || totalNum < 5)
                   System.out.println("The number of individuals is between 5-10 ");
             else
             {
-                boolean isError=false;
                 for(int i=0;i<totalNum;i++)
                 {
                     String pos="";
@@ -37,25 +43,27 @@ public class Assignment1 {
                        pos=3+"rd ";
                    else
                        pos= pos=(i+1)+"th ";
-                    printFormat=manageInput(sc, pos,isError,printFormat);
+                   assignment.manageInput(sc, pos);
                 }
-                if(!isError)
-                {
-                   System.out.print(printFormat);
-                }
+               
+                System.out.println("1. The lowest MAP value: "+String.format("%.2f", lowestMap));
+                System.out.println("2. The highest MAP value: "+String.format("%.2f", highestMap));
+                System.out.println("1. The average MAP value: "+String.format("%.2f", (lowestMap+highestMap)/2));
+               
                }
               }
         
+    
+        
+        
         /**
-         * check user input data and return boolean value. it validate data 
-         * with required format.
-         * 
+         * check user input data, it validate data 
+         * with required format. 
          * @param id is user identifier which is range between 1-100 
          * @param sbp systolic blood pressure
          * @param dbp diastolic blood pressure
-         * @return boolean value 
+         * @return 
          */
-        
 	public static boolean checkValidation(int id, double sbp, double dbp)
 	{
 		if(id<1 && id>100)
@@ -74,57 +82,77 @@ public class Assignment1 {
         
         
         
+     
         /**
          * this method manage the input data 
          * Scanner will be used to take data from console 
-         * and return proper format data to print as out in console
          * 
          * @param scanner is used to take input from user console
          * @param currentPos current position of user  in loop
-         * @param isError check whether error occurs or not
-         * @param format format of string used to print in console
-         * @return string with appended value in format
          */
-        public static String manageInput(Scanner scanner,String currentPos,boolean isError,String format)
+        public void manageInput(Scanner scanner,String currentPos)
         {
             
+            //Create onject of class MAPCalculator
             MAPCalculator mapObj= new MAPCalculator();
            
 
             System.out.println("Enter " +currentPos +" User Identifier: ");
             int id=scanner.nextInt();
-            //identifier is of range 1-100
+            
             System.out.println("Enter "+currentPos +" User SBP in mmHg: ");
 	    double sbp=scanner.nextDouble();
 
 	    System.out.println("Enter "+currentPos +" User DBP in mmHg: ");
             double dbp=scanner.nextDouble();
                 
-                               
+                         
+            //check validation of id, sbp and dbp
             if(!checkValidation(id,sbp,dbp))
             {
-                if(retry<2)
-                {
-                    retry++;
-                    isError=true;
-                    System.out.println("Enter data again for " +currentPos +" User ");
-                    manageInput(scanner,currentPos,isError,format);
-                }
-                else
-                {
-                 System.out.println("You have entered incorrect data multiple times");
-                 isError=true;
-                 System.exit(22);
-                }
+                 System.out.println("You have entered incorrect data for id "+id);
+                 return;
             }
             else
             {
-                retry=0;
                 double map= mapObj.value(sbp,dbp);
                 String category=mapObj.category(map);
-                format+=id+". The "+category+ " MAP "+ String.format("%.2f", map)+"\n";
+               
+                System.out.println("User ID: "+ id);
+                System.out.println("User MAP value: "+ String.format("%.2f", map));
+                System.out.println("MAP is "+ category);
+                
+                //calculate max and min MAP value
+                maxMinMap(map);
             }
-            return format;
+        }
+        
+        
+        /**
+         * calculate Max and Min value of MAP
+         * @param map is MAP of current user in loop
+         */
+        public void maxMinMap(double map)
+        {
+            if(highestMap==0 )
+            {
+                highestMap=map;
+  
+            }
+            if(lowestMap==0 )
+            {
+                lowestMap=map;
+  
+            }
+            if(map>=highestMap)
+            {
+                highestMap=map;
+            } 
+            if(map<=lowestMap)
+            {
+                lowestMap=map;
+            }
+            
         }
 
 }
