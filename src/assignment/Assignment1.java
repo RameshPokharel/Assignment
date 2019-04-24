@@ -45,10 +45,10 @@ public class Assignment1 {
                        pos= pos=(i+1)+"th ";
                    assignment.manageInput(sc, pos);
                 }
-               
-                System.out.println("1. The lowest MAP value: "+String.format("%.2f", lowestMap));
-                System.out.println("2. The highest MAP value: "+String.format("%.2f", highestMap));
-                System.out.println("1. The average MAP value: "+String.format("%.2f", (lowestMap+highestMap)/2));
+               System.out.println("Summary report as: ");
+                System.out.println("1. The lowest MAP value: "+String.format("%.2f", lowestMap)+"mmHg");
+                System.out.println("2. The highest MAP value: "+String.format("%.2f", highestMap)+"mmHg");
+                System.out.println("3. The average MAP value: "+String.format("%.2f", (lowestMap+highestMap)/2)+"mmHg");
                
                }
               }
@@ -99,11 +99,17 @@ public class Assignment1 {
 
             System.out.println("Enter " +currentPos +" User Identifier: ");
             int id=scanner.nextInt();
+            if(id<1 || id >100)
+            {
+                System.out.println("You have entered incorrect User Identifier, Please enter again ");
+                manageInput(scanner,currentPos);
+                return;
+            }
             
             System.out.println("Enter "+currentPos +" User SBP in mmHg: ");
-	    double sbp=scanner.nextDouble();
+	        double sbp=scanner.nextDouble();
 
-	    System.out.println("Enter "+currentPos +" User DBP in mmHg: ");
+	        System.out.println("Enter "+currentPos +" User DBP in mmHg: ");
             double dbp=scanner.nextDouble();
                 
                          
@@ -119,7 +125,7 @@ public class Assignment1 {
                 String category=mapObj.category(map);
                
                 System.out.println("User ID: "+ id);
-                System.out.println("User MAP value: "+ String.format("%.2f", map));
+                System.out.println("User MAP value: "+ String.format("%.2f", map)+"mmHg");
                 System.out.println("MAP is "+ category);
                 
                 //calculate max and min MAP value
