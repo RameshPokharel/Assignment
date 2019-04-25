@@ -11,12 +11,16 @@ public class Assignment1 {
      */
         static double lowestMap=0;
         static double highestMap=0;
+        static double averageMap=0;
+        static int num=0;
 
 
 	public static void main(String[] args) {
 
             lowestMap=0;
             highestMap=0;
+            averageMap=0;
+            num=0;
             
             //made object of Assignment1 class
             Assignment1  assignment= new Assignment1();
@@ -46,9 +50,9 @@ public class Assignment1 {
                    assignment.manageInput(sc, pos);
                 }
                System.out.println("Summary report as: ");
-                System.out.println("1. The lowest MAP value: "+String.format("%.2f", lowestMap)+"mmHg");
-                System.out.println("2. The highest MAP value: "+String.format("%.2f", highestMap)+"mmHg");
-                System.out.println("3. The average MAP value: "+String.format("%.2f", (lowestMap+highestMap)/2)+"mmHg");
+                System.out.println("1. The lowest MAP value: "+String.format("%.1f", lowestMap)+" mmHg");
+                System.out.println("2. The highest MAP value: "+String.format("%.1f", highestMap)+" mmHg");
+                System.out.println("3. The average MAP value: "+String.format("%.1f", (averageMap)/num)+" mmHg");
                
                }
               }
@@ -125,9 +129,11 @@ public class Assignment1 {
                 String category=mapObj.category(map);
                
                 System.out.println("User ID: "+ id);
-                System.out.println("User MAP value: "+ String.format("%.2f", map)+"mmHg");
+                System.out.println("User MAP value: "+ String.format("%.1f", map)+" mmHg");
                 System.out.println("MAP is "+ category);
                 
+                averageMap+=map;
+                num++;
                 //calculate max and min MAP value
                 maxMinMap(map);
             }
